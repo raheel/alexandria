@@ -11,21 +11,26 @@ import android.hardware.Camera;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import     android.hardware.camera2.*;
 
 import java.io.IOException;
 
 /** A basic Camera preview class */
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
     private SurfaceHolder mHolder;
+
     private Camera mCamera;
     private Camera.PreviewCallback previewCallback;
     private Camera.AutoFocusCallback autoFocusCallback;
 
-    public CameraPreview(Context context, Camera camera,
+    private CameraDevice cameraDevice;
+
+
+    public CameraPreview(Context context,  CameraDevice cameraDevice,
                          Camera.PreviewCallback previewCb,
                          Camera.AutoFocusCallback autoFocusCb) {
         super(context);
-        mCamera = camera;
+        this.cameraDevice = cameraDevice;
         previewCallback = previewCb;
         autoFocusCallback = autoFocusCb;
 

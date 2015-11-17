@@ -20,6 +20,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+
 import it.jaschke.alexandria.data.AlexandriaContract;
 import it.jaschke.alexandria.services.BookService;
 import it.jaschke.alexandria.services.DownloadImage;
@@ -103,8 +106,26 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
 
+                IntentIntegrator integrator = new IntentIntegrator(AddBook.this.getActivity());
+                integrator.initiateScan();
+
+
+
             }
-        });
+
+
+            public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+                IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+                if (scanResult != null) {
+                    String result = scanResult.getContents();
+                    System.out.println("result = " + result);
+                }
+                // else continue with any other code you need in the method
+
+            }
+
+
+    });
 
         rootView.findViewById(R.id.save_button).setOnClickListener(new View.OnClickListener() {
             @Override

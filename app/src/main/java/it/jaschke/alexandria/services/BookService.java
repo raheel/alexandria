@@ -157,6 +157,7 @@ public class BookService extends IntentService {
         final String IMG_URL = "thumbnail";
 
         try {
+            System.out.println("bookJsonString = " + bookJsonString);
             JSONObject bookJson = new JSONObject(bookJsonString);
             JSONArray bookArray;
             if(bookJson.has(ITEMS)){

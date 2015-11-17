@@ -26,6 +26,7 @@
             android:inputType="text"
             android:saveEnabled="true"
             android:layout_marginTop="10dp"
+            android:textColor="@android:color/white"
             android:layout_gravity="center_horizontal"
             android:layout_toLeftOf="@+id/searchButton"
             android:layout_toStartOf="@+id/searchButton"
