@@ -106,25 +106,9 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
 
-                IntentIntegrator integrator = new IntentIntegrator(AddBook.this.getActivity());
+                IntentIntegrator integrator = IntentIntegrator.forSupportFragment(AddBook.this);
                 integrator.initiateScan();
-
-
-
-            }
-
-
-            public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-                IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
-                if (scanResult != null) {
-                    String result = scanResult.getContents();
-                    System.out.println("result = " + result);
-                }
-                // else continue with any other code you need in the method
-
-            }
-
-
+           }
     });
 
         rootView.findViewById(R.id.save_button).setOnClickListener(new View.OnClickListener() {
@@ -224,5 +208,20 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         activity.setTitle(R.string.scan);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+        if (scanResult != null) {
+            String ean = scanResult.getContents();
+            //Once we have an ISBN, start a book intent
+            Intent bookIntent = new Intent(getActivity(), BookService.class);
+            bookIntent.putExtra(BookService.EAN, ean);
+            bookIntent.setAction(BookService.FETCH_BOOK);
+            getActivity().startService(bookIntent);
+            AddBook.this.restartLoader();
+        }
+
     }
 }
