@@ -72,7 +72,7 @@ public class BookService extends IntentService {
      */
     private void fetchBook(String ean) {
 
-        if(ean.length()!=13){
+        if(ean==null || ean.length()!=13){
             return;
         }
 
@@ -142,6 +142,10 @@ public class BookService extends IntentService {
                 }
             }
 
+        }
+
+        if (bookJsonString==null){
+            return;
         }
 
         final String ITEMS = "items";
